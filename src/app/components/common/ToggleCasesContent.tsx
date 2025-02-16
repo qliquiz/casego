@@ -18,8 +18,8 @@ const ToggleCasesContent = ({ selectedCase, setSelectedCase, setShowSpinner }: T
   };
 
   return (
-    <div>
-      <div className="flex space-x-2">
+    <div className='w-full flex-col flex-1'>
+      <div className='flex space-x-2'>
         <button
           onClick={() => setSelectedTab('cases')}
           className={`w-1/2 py-1 rounded-t-lg text-white text-xs ${selectedTab === 'cases' ? 'bg-gray-900' : 'bg-gray-700'}`}
@@ -35,26 +35,28 @@ const ToggleCasesContent = ({ selectedCase, setSelectedCase, setShowSpinner }: T
       </div>
 
       {selectedTab === 'cases' ? (
-        <div className="flex flex-wrap justify-center gap-2 pt-4">
-          {loadingCases ? <p className="text-white">Загрузка кейсов...</p> : errorCases ? <p className="text-red-500">{errorCases}</p> :
-            cases.map((caseItem) => (
-              <div key={caseItem.id} className="w-16 h-16 flex items-center justify-center p-0"
-                onClick={() => handleCaseClick(caseItem)}>
-                <Case {...caseItem} />
-              </div>
-            ))}
+        <div className='flex h-full flex-wrap justify-center gap-2 pt-4 bg-gray-900'>
+          {loadingCases ? <p className='text-white'>Загрузка кейсов...</p> :
+            errorCases || !cases ? <p className='text-red-500'>{errorCases}</p> :
+              cases.map((caseItem) => (
+                <div key={caseItem.id} className='w-16 h-16 flex items-center justify-center p-0'
+                  onClick={() => handleCaseClick(caseItem)}>
+                  <Case {...caseItem} />
+                </div>
+              ))}
         </div>
       ) : (
-        <div className="flex flex-wrap justify-center gap-2 pt-4">
-          {loadingItems ? <p className="text-white">Загрузка предметов...</p> : errorItems ? <p className="text-red-500">{errorItems}</p> :
-            items.map((item) => (
-              <div key={item.id} className="relative w-20 h-20">
-                <Item {...item} isLoser={false} />
-                <div className="absolute bottom-1 w-full bg-gray-800 text-white text-xs text-center py-1">
-                  <p className="truncate">{item.weapon_name}</p>
+        <div className='flex h-full flex-wrap justify-center gap-2 pt-4 bg-gray-900'>
+          {loadingItems ? <p className='text-white'>Загрузка предметов...</p> :
+            errorItems || !items ? <p className='text-red-500'>{errorItems}</p> :
+              items.map((item) => (
+                <div key={item.id} className='relative w-20 h-20'>
+                  <Item {...item} isLoser={false} />
+                  <div className='absolute bottom-1 w-full bg-gray-800 text-white text-xs text-center py-1'>
+                    <p className='truncate'>{item.weapon_name}</p>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
         </div>
       )}
     </div>

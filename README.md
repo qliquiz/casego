@@ -79,9 +79,9 @@ export default {
 Create a `.env` file in the root directory and configure environment variables:
 
 ```env
-IS_PRODUCTION=false
-API_URL=https://your-api-url.com
-HOST_URL=https://your-host-url.com
+VITE_IS_PRODUCTION=false
+VITE_API_URL=https://your-api-url.com
+VITE_HOST_URL=https://your-host-url.com
 ```
 
 Use it in your code:
@@ -114,7 +114,6 @@ casego
 │   │   ├── icons          # Icon assets used dynamically in components
 │   │   └── images         # Image assets used dynamically in components
 │   ├── configs            # Configuration files for different environments and settings
-│   │   └── environment.ts # Environment-specific variables and configurations
 │   ├── styles             # Global styles and Tailwind CSS imports
 │   │   ├── App.css        # Styles specific to the App component
 │   │   └── index.css      # Global styles and Tailwind configuration

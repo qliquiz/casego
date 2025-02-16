@@ -8,7 +8,7 @@ const Inventory = () => {
 
   if (loading) return <p className="text-center pt-4 text-white">Загрузка инвентаря...</p>;
   if (error) return <p className="text-center text-red-500">{error}</p>;
-  if (!items.length) return <p className="text-center text-gray-400">Инвентарь пока пуст</p>;
+  if (!items || !items.length) return <p className="text-center text-gray-400">Инвентарь пока пуст</p>;
 
   return (
     <div className="flex flex-col items-center p-4 text-white">

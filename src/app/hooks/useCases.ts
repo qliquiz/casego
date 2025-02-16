@@ -4,7 +4,7 @@ import { CaseProps } from '../types/CaseProps';
 
 export const useCases = () => {
   const [cases, setCases] = useState<CaseProps[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {

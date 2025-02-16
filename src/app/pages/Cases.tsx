@@ -2,12 +2,14 @@ import { useRef, useState, useEffect } from 'react';
 import { CasesProps } from '../types/CasesProps';
 import { CaseProps } from '../types/CaseProps';
 import { useUser } from '../hooks/useUser';
+import { useCases } from '../hooks/useCases';
 import { useSpin } from '../hooks/useSpin';
 import { Spinner } from '../types/Spinner';
 import { ItemProps } from '../types/ItemProps';
 import ToggleCasesContent from '../components/common/ToggleCasesContent';
 import Item from '../components/ui/Item';
 import Case from '../components/ui/Case';
+import { addItemToInventory } from '../services/inventoryService';
 
 const Cases = ({ weaponsCount, transitionDuration }: CasesProps) => {
   const [weaponPrizeId, setWeaponPrizeId] = useState<number>(-1);
@@ -18,7 +20,14 @@ const Cases = ({ weaponsCount, transitionDuration }: CasesProps) => {
   const spinnerContainerRef = useRef<HTMLDivElement | null>(null);
   const weaponsRef = useRef<HTMLDivElement | null>(null);
   const { user } = useUser();
-  const { weapons, loading, error } = useSpin(selectedCase?.id || null);
+  const { cases, loading: loadingCases, error: casesError } = useCases();
+  const { weapons, loading: loadingWeapons, error: weaponsError } = useSpin(selectedCase?.id || null);
+
+  useEffect(() => {
+    if (!selectedCase && cases.length > 0) {
+      setSelectedCase(cases[0]);
+    }
+  }, [cases, selectedCase]);
 
   function transitionEndHandler() {
     setIsSpin(false);
@@ -26,7 +35,8 @@ const Cases = ({ weaponsCount, transitionDuration }: CasesProps) => {
   }
 
   async function play() {
-    if (!selectedCase || !user?.id || weapons.length === 0) return;
+    if (!user || !weapons.length) return;
+
     setIsSpin(true);
     setShowSpinner(true);
 
@@ -41,21 +51,18 @@ const Cases = ({ weaponsCount, transitionDuration }: CasesProps) => {
       transitionDuration
     });
 
-    spinner.set_weapons();
-    
+    spinner.setWeapons();
+
+    await addItemToInventory(user.id, weaponPrizeId);
+
     setTimeout(() => {
       setWeaponPrizeId(spinner.spin());
     }, 100);
+
   }
 
-  useEffect(() => {
-    setIsSpin(false);
-    setIsSpinEnd(false);
-    setWeaponPrizeId(-1);
-  }, [selectedCase]);
-
   return (
-    <div className='flex flex-col items-center p-4 text-white'>
+    <div className='fixed top-0 left-0 right-0 bottom-14 flex flex-col items-center p-4 text-white'>
       <h2 className='text-2xl font-bold mb-4'>Cases</h2>
 
       {showSpinner ? (
@@ -72,13 +79,17 @@ const Cases = ({ weaponsCount, transitionDuration }: CasesProps) => {
         <div className='p-4 border border-gray-700 rounded-md'>
           <Case {...selectedCase} />
         </div>
+      ) : loadingCases ? (
+        <p className='text-gray-400'>Загрузка кейсов...</p>
+      ) : casesError ? (
+        <p className='text-red-500'>{casesError}</p>
       ) : (
-        <p className='text-gray-400'>Выберите кейс</p>
+        <p className='text-gray-400'>Нет доступных кейсов</p>
       )}
 
       <button
-        className='mt-4 px-6 py-2 bg-blue-500 text-white font-semibold rounded disabled:opacity-50'
-        disabled={!selectedCase || !user?.id || loading}
+        className='mt-4 px-6 py-2 bg-green-500 text-white font-semibold rounded disabled:opacity-50'
+        disabled={!selectedCase || !user?.id || loadingWeapons}
         onClick={play}
       >
         {isSpin ? 'Открывается...' : 'Открыть'}
@@ -91,7 +102,7 @@ const Cases = ({ weaponsCount, transitionDuration }: CasesProps) => {
         showSpinner={showSpinner}
       />
 
-      {error && <p className='text-red-500 mt-4'>{error}</p>}
+      {(weaponsError || casesError) && <p className='text-red-500 mt-4'>{weaponsError || casesError}</p>}
     </div>
   );
 };

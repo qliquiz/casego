@@ -16,7 +16,10 @@ export const apiClient = async <T>(url: string, options: RequestInit = {}): Prom
       throw new Error(`Ошибка ${response.status}: ${errorText}`);
     }
 
-    return response.json();
+    let result = await response.json();
+    result = typeof result.data === 'string' ? JSON.parse(result.data) : result.data;
+
+    return result;
   } catch (error) {
     console.error('Network error:', error);
     throw new Error('Ошибка сети. Попробуйте позже.');

@@ -25,11 +25,11 @@ const App = () => {
     if (window.Telegram?.WebApp) {
       window.Telegram.WebApp.ready();
       const telegramUser = window.Telegram.WebApp.initDataUnsafe?.user;
-      if (telegramUser) {
-        console.log('ID: ', telegramUser.id);
-        setUser(telegramUser);
-      }
-    } else console.error('Telegram WebApp не доступен');
+      if (telegramUser) setUser(telegramUser);
+    } else {
+      console.error('Telegram WebApp не доступен');
+      setUser({id: 1, username: 'qliquiz'});
+    }
   }, [setUser]);
 
   return (

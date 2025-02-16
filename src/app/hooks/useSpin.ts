@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { getWeaponsByCase } from '../services/spinService';
 import { ItemProps } from '../types/ItemProps';
+import { getItemsByCase } from '../services/itemService';
 
 export const useSpin = (caseId: number | null) => {
   const [weapons, setWeapons] = useState<ItemProps[]>([]);
@@ -13,7 +13,7 @@ export const useSpin = (caseId: number | null) => {
     const loadWeapons = async () => {
       try {
         setLoading(true);
-        const data = await getWeaponsByCase(caseId);
+        const data = await getItemsByCase(caseId);
         setWeapons(data);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Ошибка загрузки оружия');

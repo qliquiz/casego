@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { fetchItemsByCase } from '../services/itemService';
+import { getItemsByCase } from '../services/itemService';
 import { ItemProps } from '../types/ItemProps';
 
 export const useItems = (caseId: number | null) => {
@@ -13,7 +13,7 @@ export const useItems = (caseId: number | null) => {
     const loadItems = async () => {
       try {
         setLoading(true);
-        const data = await fetchItemsByCase(caseId);
+        const data = await getItemsByCase(caseId);
         setItems(data);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Ошибка загрузки предметов');

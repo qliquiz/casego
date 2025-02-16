@@ -20,24 +20,24 @@ export class Spinner {
     this.weapons = [];
     this.spinnerWrapper = attrs.spinnerContainerRef;
     this.weaponWrapper = attrs.weaponsRef;
-    this.weaponsCount = attrs.weaponsCount || 50;
+    this.weaponsCount = attrs.weaponsCount || 100;
     this.weaponPrizeId = this.randomRange(this.weaponsCount / 2, this.weaponsCount - 5);
-    this.transitionDuration = attrs.transitionDuration || 10;
-    this.itemWidth = attrs.itemWidth || 110;
+    this.transitionDuration = attrs.transitionDuration || 7;
+    this.itemWidth = attrs.itemWidth || 94;
   }
 
   private randomRange = (min: number, max: number) => {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 
-  private shuffle = (array: any[]) => {
+  private shuffle = (array: Weapon[]) => {
     for (let i = array.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [array[i], array[j]] = [array[j], array[i]];
     }
   }
 
-  public set_weapons = () => {
+  public setWeapons = () => {
     let weapons: Weapon[] = [];
     const caseItemsLength = this.caseItems.length;
 
@@ -45,7 +45,7 @@ export class Spinner {
       throw new Error('Error! No items in case.');
     }
 
-    const set_weapon_actors = (from_i: number, to_i: number) => {
+    const setWeaponsActors = (from_i: number, to_i: number) => {
       let j = 0;
       const createdWeapons: Weapon[] = [];
       for (let i = from_i; i <= to_i; i++) {
@@ -56,32 +56,33 @@ export class Spinner {
       return createdWeapons;
     };
 
-    weapons = weapons.concat(set_weapon_actors(0, this.weaponPrizeId - 1));
+    weapons = weapons.concat(setWeaponsActors(0, this.weaponPrizeId - 1));
     weapons[this.weaponPrizeId] = new Weapon(this.weaponPrizeId, this.winner);
-    weapons = weapons.concat(set_weapon_actors(this.weaponPrizeId + 1, this.weaponsCount - 1));
+    weapons = weapons.concat(setWeaponsActors(this.weaponPrizeId + 1, this.weaponsCount - 1));
+
     this.weapons = weapons;
   };
 
   public spin = () => {
-    let randStop = 0;
-
     const el_weapon_width_1_2 = Math.floor(this.itemWidth / 2);
     const el_weapon_width_1_10 = Math.floor(this.itemWidth / 10);
 
-    randStop = (this.weaponPrizeId - 2) * this.itemWidth + el_weapon_width_1_2 +
+    const randStop = (this.weaponPrizeId - 2) * this.itemWidth + el_weapon_width_1_2 +
       this.randomRange(el_weapon_width_1_10, (8 * el_weapon_width_1_10)) + 40;
 
     const wrapper = this.weaponWrapper.current;
     if (wrapper) {
-      wrapper.style.transition = `left ${this.transitionDuration}s ease-out`;
+      wrapper.style.transition = 'none';
+      wrapper.style.left = '0px';
 
-      setTimeout(() => {
+      requestAnimationFrame(() => {
         if (wrapper) {
+          wrapper.style.transition = `left ${this.transitionDuration}s ease-out`;
           wrapper.style.left = `-${randStop}px`;
         }
-      }, 100);
+      });
     }
 
     return this.weaponPrizeId;
-  }
+  };
 }

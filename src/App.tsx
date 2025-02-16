@@ -1,7 +1,8 @@
 import { useEffect } from 'react';
 import { HashRouter } from 'react-router-dom';
-import { useUser, User } from './contexts/UserContext';
-import AppRouter from './routes/AppRouter';
+import { useUser } from './app/hooks/useUser';
+import { User } from './app/types/User';
+import AppRouter from './app/routes/AppRouter';
 import './styles/App.css';
 
 declare global {

@@ -7,8 +7,8 @@ import Error from '../pages/Error';
 import Navbar from '../components/layout/Navbar';
 
 const AppRouter = () => {
-  const weaponsCount = 100;
-  const transitionDuration = 10;
+  const weaponsCount: number = 100;
+  const transitionDuration: number = 10;
 
   return (
     <Routes>

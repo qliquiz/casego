@@ -1,4 +1,4 @@
-import { useUser } from '../contexts/UserContext';
+import { useUser } from "../hooks/useUser";
 
 const Profile = () => {
   const { user } = useUser();

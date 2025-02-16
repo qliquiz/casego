@@ -1,44 +1,12 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { RefObject } from 'react';
+import { ItemProps } from './ItemProps';
+import { Weapon } from './Weapon';
+import { SpinnerAttributes } from './SpinnerAttributes';
 
-export interface WeaponAttributes {
-  id: number;
-  weapon_name: string;
-  skin_name: string;
-  rarity: string;
-  steam_image: string;
-}
-
-export interface RouletteAttributes {
-  winner: WeaponAttributes;
-  caseItems: WeaponAttributes[];
-  rouletteContainerRef: RefObject<HTMLDivElement>;
-  weaponsRef: RefObject<HTMLDivElement>;
-  weaponsCount?: number;
-  transitionDuration?: number;
-  itemWidth?: number;
-}
-
-export class Weapon {
-  id: number;
-  weapon_name: string;
-  skin_name: string;
-  rarity: string;
-  steam_image: string;
-
-  constructor(id: number, attrs: WeaponAttributes) {
-    this.id = id;
-    this.weapon_name = attrs.weapon_name;
-    this.skin_name = attrs.skin_name;
-    this.rarity = attrs.rarity;
-    this.steam_image = attrs.steam_image;
-  }
-}
-
-export class RouletteClass {
-  winner: WeaponAttributes;
-  caseItems: WeaponAttributes[];
-  rouletteWrapper: RefObject<HTMLDivElement>;
+export class Spinner {
+  winner: ItemProps;
+  caseItems: ItemProps[];
+  spinnerWrapper: RefObject<HTMLDivElement>;
   weaponWrapper: RefObject<HTMLDivElement>;
   weapons: Weapon[];
   weaponsCount: number;
@@ -46,11 +14,11 @@ export class RouletteClass {
   transitionDuration: number;
   itemWidth: number;
 
-  constructor(attrs: RouletteAttributes) {
+  constructor(attrs: SpinnerAttributes) {
     this.winner = attrs.winner;
     this.caseItems = attrs.caseItems;
     this.weapons = [];
-    this.rouletteWrapper = attrs.rouletteContainerRef;
+    this.spinnerWrapper = attrs.spinnerContainerRef;
     this.weaponWrapper = attrs.weaponsRef;
     this.weaponsCount = attrs.weaponsCount || 50;
     this.weaponPrizeId = this.randomRange(this.weaponsCount / 2, this.weaponsCount - 5);
@@ -69,7 +37,7 @@ export class RouletteClass {
     }
   }
 
-  set_weapons = () => {
+  public set_weapons = () => {
     let weapons: Weapon[] = [];
     const caseItemsLength = this.caseItems.length;
 
@@ -94,9 +62,9 @@ export class RouletteClass {
     this.weapons = weapons;
   };
 
-  spin = () => {
+  public spin = () => {
     let randStop = 0;
-    // Removed unused screenWidth variable
+
     const el_weapon_width_1_2 = Math.floor(this.itemWidth / 2);
     const el_weapon_width_1_10 = Math.floor(this.itemWidth / 10);
 

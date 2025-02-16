@@ -1,8 +1,4 @@
-export interface CaseProps {
-  id: number;
-  name: string;
-  image: string;
-}
+import { CaseProps } from "../../types/CaseProps";
 
 const Case = ({ id, name, image }: CaseProps) => {
   return (

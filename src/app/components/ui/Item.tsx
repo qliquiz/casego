@@ -1,19 +1,12 @@
-export interface ItemProps {
-  id: number;
-  weapon_name: string;
-  skin_name: string;
-  rarity: string;
-  steam_image: string;
-  isLoser: boolean;
-}
+import { ItemProps } from "../../types/ItemProps";
 
 const rarityClasses: { [key: string]: string } = {
-  milspec: 'bg-blue-500',
-  restricted: 'bg-purple-500',
-  classified: 'bg-pink-500',
-  covert: 'bg-red-500',
-  rare: 'bg-yellow-500',
-  uncommon: 'bg-gray-400',
+  'milspec': 'bg-blue-500',
+  'restricted': 'bg-purple-500',
+  'classified': 'bg-pink-500',
+  'covert': 'bg-red-500',
+  'rare': 'bg-yellow-500',
+  'uncommon': 'bg-gray-400',
   'industrial-grade': 'bg-indigo-500',
 };
 

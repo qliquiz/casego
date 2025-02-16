@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { useUser } from '../../contexts/UserContext';
+import { useUser } from '../../hooks/useUser';
 
 const Navbar = () => {
   const { user } = useUser();
@@ -9,13 +9,13 @@ const Navbar = () => {
       <nav className='flex justify-around w-full max-w-md'>
         {user && (
           <>
-            <Link to={`/inventory/${user.id}`} className='text-white text-lg px-4 py-2 hover:text-cyan-400 transition'>
+            <Link to={`/inventory/${user.id}`} className='text-white text-lg px-4 py-2 hover:text-cyan-100 transition'>
               Инвентарь
             </Link>
-            <Link to='/cases' className='text-white text-lg px-4 py-2 hover:text-cyan-400 transition'>
+            <Link to='/cases' className='text-white text-lg px-4 py-2 hover:text-cyan-100 transition'>
               Кейсы
             </Link>
-            <Link to={`/profile/${user.id}`} className='text-white text-lg px-4 py-2 hover:text-cyan-400 transition'>
+            <Link to={`/profile/${user.id}`} className='text-white text-lg px-4 py-2 hover:text-cyan-100 transition'>
               Профиль
             </Link>
           </>
